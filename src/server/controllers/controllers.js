@@ -79,9 +79,9 @@ var makeReq = function(results, styles, startIBU, startABV, count, res, index, i
 
   axios.get(reqString)
   .then(function(getResponse) {
-    if (getResponse.data.totalResults > 15 && count < 5) {
+    if (getResponse.data.totalResults > 15 && count < 3) {
       results.push(makeReq(results, styles, startIBU, startABV, count, res, index, incSize/2));
-    } else if (getResponse.data.totalResults === undefined && count < 5) {
+    } else if (getResponse.data.totalResults === undefined && count < 3) {
       incSize = (incSize * Math.max(0.75, Math.random())); 
       results.push(makeReq(results, styles, startIBU, startABV, count, res, index, incSize * 2));
     } else if (index === styles.length - 1) {
@@ -118,15 +118,15 @@ var algorithmRequest = function(algorithmResult, results, styles, styleCount, st
   count++;
   axios.get(reqString)
   .then(function(getResponse) {
-    if (getResponse.data.totalResults > 35 && count < 5) {
-      if (count === 4) { 
+    if (getResponse.data.totalResults > 35 && count < 3) {
+      if (count === 2) { 
         incSize = incSize * 1.8; 
       } else {
         incSize = (incSize * Math.max(0.90, Math.random())); 
       }
       results.push(algorithmRequest(algorithmResult, results, styles, styleCount, startIBU, startABV, count, res, index, incSize/2));
 
-    } else if (getResponse.data.totalResults === undefined && count < 5) {
+    } else if (getResponse.data.totalResults === undefined && count < 3) {
       incSize = (incSize * Math.max(0.75, Math.random())); 
       results.push(algorithmRequest(algorithmResult, results, styles, styleCount, startIBU, startABV, count, res, index, incSize * 2));
 
@@ -350,12 +350,12 @@ var resultStringGeneratorSRM = function(object, comparison, key) {
 }
   
 var addFlavorText = function(responseObject, color, bitter, categories, favoriteStyle) {
-  var category1 = categories[0] || 'PBR';
-  var category2 = categories[1] || 'PBR';
-  var category3 = categories[2] || 'PBR'; 
   if (categories === undefined) {
     var template = `Welcome to Bru! Based on your initial selection, we have selected the following beers for you. Continue to add beers that you like to your taste profile, so that we can help you find your perfect Bru!`; 
   } else {
+    var category1 = categories[0] || 'PBR';
+    var category2 = categories[1] || 'PBR';
+    var category3 = categories[2] || 'PBR'; 
     var template = `After analyzing your Bru profile, it appears that you prefer a ${color} beer, with a ${bitter}. Our algorithm indicates that you may enjoy ${category1}, ${category2} and ${category3}. Based on your taste profile, we have selected the following beers for you. Continue to add beers that you like to your taste profile, so that we can help you find your perfect Bru!`; 
   }
   return template; 
