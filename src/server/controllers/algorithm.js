@@ -166,7 +166,12 @@ var selectionPerStyleCalculator = function(stylePercent, listLength, ratio, unse
 }
 
 var avgCalculator = function(propertyArray) {
+	// propertyArray = propertyArray.filter((a) => a !== null);
+	propertyArray = propertyArray.map((ele) => parseInt(ele)); 
+	propertyArray = propertyArray.map((ele) => String(ele));
+	propertyArray = propertyArray.filter((a) => a !== 'NaN');
 	var len = propertyArray.length; 
+	propertyArray = propertyArray.map((ele) => parseInt(ele)); 
 	return propertyArray.reduce((a,b) => a + b) / len; 
 }; 
 
